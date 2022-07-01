@@ -2,8 +2,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
-import ShoppingBagIcon from '@plugin_shoppingbag';
-import ProductCompareIcon from '@core_modules/catalog/plugins/ProductCompare';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
@@ -27,7 +25,7 @@ const ViewTopNavigation = (props) => {
         handleLogout,
         app_cookies,
         showGlobalPromo,
-        modules,
+        // modules,
         vesMenuConfig,
         appName = 'Swift PWA',
         installMessage = 'Install',
@@ -72,16 +70,6 @@ const ViewTopNavigation = (props) => {
                         </div>
                         <div className="header-middle__right">
                             <div className="box">
-                                <div className="header-middle__icons">
-                                    {modules.productcompare.enabled && (
-                                        <div className="shopping-bag">
-                                            <ProductCompareIcon withLink isLogin={isLogin} />
-                                        </div>
-                                    )}
-                                    <div className="shopping-bag">
-                                        <ShoppingBagIcon withLink storeConfig={storeConfig} />
-                                    </div>
-                                </div>
                                 <div className="header-middle__search">
                                     {/* <TextField
                                         id="standard-basic"
