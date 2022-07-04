@@ -1,0 +1,318 @@
+/* eslint-disable react/no-danger */
+/* eslint-disable array-callback-return */
+import Typography from '@common_typography';
+import classNames from 'classnames';
+import React from 'react';
+import { getHost } from '@helper_config';
+import Breadcrumb from '@common_breadcrumb';
+import { breakPointsUp } from '@helper_theme';
+import dynamic from 'next/dynamic';
+import useStyles from '@core_modules/product/pages/default/components/style';
+import OptionItem from '@core_modules/product/pages/default/components/OptionItem';
+import SharePopup from '@core_modules/product/pages/default/components/SharePopup';
+import ModalPopupImage from '@core_modules/product/pages/default/components/ModalPopupImage';
+import { getProductBannerLite } from '@core_modules/product/services/graphql';
+import { formatPrice } from '@helper_currency';
+
+const Button = dynamic(() => import('@common_button'), { ssr: true });
+const Banner = dynamic(() => import('@common_slick/BannerThumbnail'), { ssr: true });
+const DesktopOptions = dynamic(() => import('@core_modules/product/pages/default/components/OptionItem/DesktopOptions'), { ssr: true });
+const ExpandDetail = dynamic(() => import('@core_modules/product/pages/default/components/ExpandDetail'), { ssr: false });
+const TabsView = dynamic(() => import('@core_modules/product/pages/default/components/DesktopTabs'), { ssr: false });
+const PriceFormat = dynamic(() => import('@common_priceformat'), { ssr: true });
+const WeltpixelLabel = dynamic(() => import('@plugin_productitem/components/WeltpixelLabel'), { ssr: false });
+const UpsellDrawer = dynamic(() => import('@core_modules/product/pages/default/components/RightDrawer'), { ssr: false });
+const RelatedProductCaraousel = dynamic(() => import('@core_modules/product/pages/default/components/RelatedProductCaraousel'), { ssr: false });
+const PromoBannersLite = dynamic(() => import('@core_modules/product/pages/default/components/PromoBannersLite'), { ssr: false });
+
+const ProductPage = (props) => {
+    const styles = useStyles();
+    const {
+        t,
+        data,
+        openOption,
+        handleOption,
+        setOpenOption,
+        setBanner,
+        setPrice,
+        openShare,
+        setOpenShare,
+        route,
+        banner,
+        openDrawer,
+        setOpenDrawer,
+        breadcrumbsData,
+        price,
+        expandData,
+        openImageDetail,
+        handleOpenImageDetail,
+        stockStatus,
+        additionalPrice,
+        smartProductTabs,
+        isLogin,
+        enablePopupImage,
+        storeConfig,
+    } = props;
+    const desktop = breakPointsUp('sm');
+
+    const context = (isLogin && isLogin === 1) ? { request: 'internal' } : {};
+    const [getBannerLite, bannerLiteResult] = getProductBannerLite(route.asPath.slice(1), { context });
+
+    React.useEffect(() => {
+        getBannerLite();
+    }, [bannerLiteResult.called]);
+
+    let bannerLiteData = [];
+    if (bannerLiteResult && bannerLiteResult.data && bannerLiteResult.data.products.items
+        && bannerLiteResult.data.products.items.length > 0 && bannerLiteResult.data.products.items[0].banners_data) {
+        bannerLiteData = bannerLiteResult.data.products.items[0].banners_data;
+    }
+    const bannerLiteObj = {
+        top: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '0') || [],
+        after: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '1') || [],
+        label: bannerLiteData.filter((bannerLite) => bannerLite.banner_type === '2') || [],
+    };
+
+    return (
+        <>
+            <div className="hidden-mobile">
+                <UpsellDrawer
+                    open={openDrawer}
+                    setOpen={() => setOpenDrawer(!openDrawer)}
+                    t={t}
+                    dataProduct={data}
+                    isLogin={isLogin}
+                    storeConfig={storeConfig}
+                />
+                {
+                    enablePopupImage && (
+                        <ModalPopupImage open={openImageDetail} setOpen={handleOpenImageDetail} banner={banner} storeConfig={storeConfig} />
+                    )
+                }
+            </div>
+            <OptionItem {...props} open={openOption} setOpen={() => setOpenOption(!openOption)} setBanner={setBanner} setPrice={setPrice} />
+            <SharePopup open={openShare} setOpen={() => setOpenShare(!openShare)} link={getHost() + route.asPath} {...props} />
+            <div className={classNames(styles.container, 'row')}>
+                <div className="col-lg-12 hidden-mobile">
+                    <Breadcrumb data={breadcrumbsData} variant="text" />
+                </div>
+
+                {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
+                    bannerLiteObj.top.map((topBanner) => (
+                        <PromoBannersLite
+                            type="top"
+                            key={topBanner.entity_id}
+                            classes={classNames(styles.bannerLiteTop, 'col-xs-12')}
+                            src={topBanner.banner_link}
+                            imgSrc={topBanner.banner_image}
+                            alt={topBanner.banner_alt}
+                            storeConfig={storeConfig}
+                        />
+                    ))
+                )}
+
+                <div className={classNames(styles.headContainer, 'col-xs-12 col-lg-6')}>
+                    {(bannerLiteObj.top && bannerLiteObj.top.length > 0) && (
+                        bannerLiteObj.top.map((topBanner) => (
+                            <PromoBannersLite
+                                type="top"
+                                key={topBanner.entity_id}
+                                classes={classNames(styles.bannerLiteTopMobile, 'col-xs-12')}
+                                src={topBanner.banner_link}
+                                imgSrc={topBanner.banner_image}
+                                alt={topBanner.banner_alt}
+                                storeConfig={storeConfig}
+                            />
+                        ))
+                    )}
+                    <div className="row">
+                        {(bannerLiteObj.label && bannerLiteObj.label.length > 0) && (
+                            bannerLiteObj.label.map((labelBanner) => (
+                                <PromoBannersLite
+                                    type="label"
+                                    key={labelBanner.entity_id}
+                                    classes={classNames(styles.bannerLiteLabel, 'col-xs-6')}
+                                    imgSrc={labelBanner.banner_image}
+                                    alt={labelBanner.banner_alt}
+                                    storeConfig={storeConfig}
+                                />
+                            ))
+                        )}
+                    </div>
+                    <Banner
+                        data={banner}
+                        noLink
+                        thumbnail
+                        showArrow
+                        contentWidth="auto"
+                        autoPlay={false}
+                        width={960}
+                        height={1120}
+                        actionImage={(desktop && enablePopupImage) ? handleOpenImageDetail : () => { }}
+                        customProduct={styles.bannerProduct}
+                        storeConfig={storeConfig}
+                    >
+                        {
+                            storeConfig?.pwa?.label_enable
+                            && storeConfig?.pwa?.label_weltpixel_enable && (
+                                <WeltpixelLabel
+                                    t={t}
+                                    weltpixel_labels={data.weltpixel_labels || []}
+                                    categoryLabel={false}
+                                    withThumbnailProduct
+                                />
+                            )
+                        }
+                    </Banner>
+                    <div className="hidden-desktop">
+                        <UpsellDrawer
+                            open={openDrawer}
+                            setOpen={() => setOpenDrawer(!openDrawer)}
+                            t={t}
+                            dataProduct={data}
+                            isLogin={isLogin}
+                        />
+                    </div>
+                </div>
+                <div className={classNames(styles.body, 'col-xs-12 col-lg-6')}>
+                    <div className={classNames(styles.titleContainer, 'hidden-desktop')}>
+                        <Breadcrumb data={breadcrumbsData} variant="text" />
+                    </div>
+
+                    <div className={styles.titleContainer}>
+                        <div className={styles.titlePriceContainer}>
+                            <Typography variant="title" type="bold" letter="capitalize" className={classNames(styles.title, 'clear-margin-padding')}>
+                                {data.name}
+                            </Typography>
+                            <PriceFormat {...price} additionalPrice={additionalPrice} />
+                        </div>
+                    </div>
+                    <div className={styles.titleContainer}>
+                        <div className={classNames('row', styles.sku)}>
+                            <Typography className="clear-margin-padding" variant="p" type="regular" letter="capitalize">
+                                SKU#:
+                                {' '}
+                            </Typography>
+                            <Typography variant="p" type="bold" letter="none">
+                                {data.sku || ''}
+                            </Typography>
+                        </div>
+                        <Typography variant="p" type="bold" letter="uppercase">
+                            {stockStatus.replace(/_/g, ' ') || ''}
+                        </Typography>
+                    </div>
+                    <div className={styles.titleContainer}>
+                        <div className={styles.priceTiersContainer}>
+                            {
+                                price.priceTiers.length > 0 && price.priceTiers.map((tiers, index) => {
+                                    const priceTiers = {
+                                        quantity: tiers.quantity,
+                                        currency: tiers.final_price.currency,
+                                        price: formatPrice(tiers.final_price.value),
+                                        discount: tiers.discount.percent_off,
+                                    };
+                                    return (
+                                        <Typography variant="p" type="regular" key={index}>
+                                            {t('product:priceTiers', { priceTiers })}
+                                        </Typography>
+                                    );
+                                })
+                            }
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        {
+                            storeConfig?.pwa?.label_enable
+                            && storeConfig?.pwa?.label_weltpixel_enable && (
+                                <WeltpixelLabel
+                                    t={t}
+                                    weltpixel_labels={data.weltpixel_labels || []}
+                                    categoryLabel={false}
+                                    onDetailProduct
+                                />
+                            )
+                        }
+                    </div>
+
+                    <div className="hidden-desktop">
+                        <div className={styles.desc}>
+                            <Typography variant="span" type="regular" size="10">
+                                {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
+                            </Typography>
+                        </div>
+                        <div>
+                            <ExpandDetail data={expandData} smartProductTabs={smartProductTabs} />
+                        </div>
+                        <div className="row">
+                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
+                                bannerLiteObj.after.map((afterBanner) => (
+                                    <PromoBannersLite
+                                        type="after"
+                                        key={afterBanner.entity_id}
+                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                        src={bannerLiteObj.after.banner_link}
+                                        imgSrc={afterBanner.banner_image}
+                                        alt={afterBanner.banner_alt}
+                                        storeConfig={storeConfig}
+                                    />
+                                ))
+                            )}
+                        </div>
+                    </div>
+                    <div className="hidden-mobile">
+                        <DesktopOptions {...props} setOpen={setOpenOption} setBanner={setBanner} setPrice={setPrice} />
+
+                        <div className="row">
+                            {(bannerLiteObj.after && bannerLiteObj.after.length > 0) && (
+                                bannerLiteObj.after.map((afterBanner) => (
+                                    <PromoBannersLite
+                                        type="after"
+                                        key={afterBanner.entity_id}
+                                        classes={classNames(styles.bannerLiteAfter, 'col-xs-6')}
+                                        src={bannerLiteObj.after.banner_link}
+                                        imgSrc={afterBanner.banner_image}
+                                        alt={afterBanner.banner_alt}
+                                        storeConfig={storeConfig}
+                                    />
+                                ))
+                            )}
+                        </div>
+                        <div className={styles.desc}>
+                            <Typography variant="span" type="regular" size="10">
+                                {data.short_description.html ? <span dangerouslySetInnerHTML={{ __html: data.short_description.html }} /> : null}
+                            </Typography>
+                        </div>
+                    </div>
+                </div>
+                <div className={classNames(styles.tabs, 'col-xs-12 col-lg-12 hidden-mobile')}>
+                    <TabsView
+                        {...props}
+                        dataInfo={expandData}
+                        smartProductTabs={smartProductTabs || {
+                            tab_2: {
+                                label: null,
+                                content: null,
+                            },
+                        }}
+                    />
+                </div>
+                <RelatedProductCaraousel t={t} dataProduct={data} isLogin={isLogin} storeConfig={storeConfig} />
+                <div className={classNames(styles.footer, 'hidden-desktop')}>
+                    <Button
+                        className={styles.btnAddToCard}
+                        color="primary"
+                        onClick={handleOption}
+                        disabled={data && data.stock_status === 'OUT_STOCK'}
+                    >
+                        <Typography variant="span" align="center" type="bold" letter="uppercase" color="white">
+                            {t('product:addToCart')}
+                        </Typography>
+                    </Button>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default ProductPage;
