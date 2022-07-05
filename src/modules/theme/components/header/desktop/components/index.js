@@ -3,6 +3,7 @@
 // import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
+import ShoppingBagIcon from '@plugin_shoppingbag';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
 import Menu from '@core_modules/theme/components/header/desktop/components/mcategory';
@@ -70,13 +71,18 @@ const ViewTopNavigation = (props) => {
                         </div>
                         <div className="header-middle__right">
                             <div className="box">
+                                <div className="header-middle__icons">
+                                    <div className="shopping-bag">
+                                        <ShoppingBagIcon withLink storeConfig={storeConfig} />
+                                    </div>
+                                </div>
                                 <div className="header-middle__search">
                                     {/* <TextField
-                                        id="standard-basic"
-                                        label="Search..."
-                                        onChange={(e) => setValue(e.target.value)}
-                                        onKeyPress={(e) => handleSearch(e)}
-                                    /> */}
+                                  id="standard-basic"
+                                  label="Search..."
+                                  onChange={(e) => setValue(e.target.value)}
+                                  onKeyPress={(e) => handleSearch(e)}
+                              /> */}
                                     <Autocomplete setValue={setValue} handleSearch={handleSearch} OptionsItem={OptionAutocomplete} t={t} />
                                     <div className="search-icon">
                                         <IconButton disabled={value === ''} edge="start" onClick={searchByClick} aria-label="close">

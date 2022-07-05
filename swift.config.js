@@ -406,6 +406,10 @@ const modules = {
     },
     home: {
         enabled: true,
+        useCmsPage: {
+            enable: true,
+            identifier: 'pwa-homepage',
+        },
     },
     promo: {
         enabled: true,
