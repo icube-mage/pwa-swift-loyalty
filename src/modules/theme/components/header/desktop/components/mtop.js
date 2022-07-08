@@ -27,19 +27,6 @@ const ViewTop = (props) => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/wishlist">
-                                    <a>
-                                        {t('common:menu:mywishlist')}
-                                        {' '}
-                                        (
-                                        {data.wishlist ? data.wishlist.items.length : 0}
-                                        {' '}
-                                        items )
-                                        {' '}
-                                    </a>
-                                </Link>
-                            </li>
-                            <li>
                                 <a href="#" onClick={handleLogout}>
                                     {t('common:menu:signout')}
                                 </a>
