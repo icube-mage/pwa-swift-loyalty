@@ -4,23 +4,23 @@ const { encrypt } = require('../../../helpers/encryption');
 
 const query = `
     mutation getToken(
-        $username: String!,
+        $email: String!,
         $password: String!,
     ) {
-        generateCustomerTokenCustom(username: $username, password: $password){
+        generateCustomerToken(email: $email, password: $password){
         token
         }
     }
 `;
 
-const internalGenerateCustomerTokenCustom = async (parent, { username, password }, context) => {
-    const res = await requestGraph(query, { username, password }, context);
+const internalGenerateCustomerTokenCustom = async (parent, { email, password }, context) => {
+    const res = await requestGraph(query, { email, password }, context);
     // context.session.destroy();
-    if (res.generateCustomerTokenCustom) {
-        context.session.token = encrypt(res.generateCustomerTokenCustom.token);
+    if (res.generateCustomerToken) {
+        context.session.token = encrypt(res.generateCustomerToken.token);
         return {
-            originalToken: res.generateCustomerTokenCustom.token,
-            token: encrypt(res.generateCustomerTokenCustom.token),
+            originalToken: res.generateCustomerToken.token,
+            token: encrypt(res.generateCustomerToken.token),
             message: 'welcome',
         };
     }

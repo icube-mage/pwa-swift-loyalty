@@ -52,7 +52,7 @@ input internalSetCheckoutSessionInput {
 type Mutation {
     internalGenerateCustomerToken(username: String!, password: String!): Token
     internalCreateCustomerToken(input: internalCreateCustomerTokenInput): Token
-    internalGenerateCustomerTokenCustom(username: String!, password: String!): Token
+    internalGenerateCustomerTokenCustom(email: String!, password: String!): Token
     internalGenerateCartTokenSession(input: internalSetCheckoutSessionInput): Token
     internalCreateSocialLogin(input: internalCreateSocialLoginInput): Token
     internalGenerateCustomerTokenOtp(username: String!, otp: String!): Token
