@@ -14,7 +14,7 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://b2cdemo.getswift.asia/graphql',
+    local: 'https://catalog-redemption.testingnow.me/graphql',
     dev: 'https://swift-sprint.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
@@ -112,7 +112,7 @@ const keyLocalStorage = {
 };
 
 const features = {
-    useCustomStyle: false,
+    useCustomStyle: true,
     ssrCache: false,
     magezon: {
         instagramFeed: {
@@ -408,7 +408,7 @@ const modules = {
         enabled: true,
         useCmsPage: {
             enable: true,
-            identifier: 'pwa-homepage',
+            identifier: 'pwa-develop-catalog-redemption-homepage',
         },
     },
     promo: {

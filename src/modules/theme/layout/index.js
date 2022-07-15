@@ -8,7 +8,7 @@ import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import {
-    custDataNameCookie, features, modules, debuging, assetsVersion, storeConfigNameCookie,
+    custDataNameCookie, features, assetsVersion, storeConfigNameCookie,
 } from '@config';
 import { getHost } from '@helper_config';
 import { breakPointsUp } from '@helper_theme';
@@ -16,7 +16,7 @@ import { setCookies, getCookies } from '@helper_cookies';
 import { setLocalStorage } from '@helper_localstorage';
 import { getAppEnv } from '@helpers/env';
 import useStyles from '@core_modules/theme/layout/style';
-import { createCompareList } from '@core_modules/product/services/graphql';
+// import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
 import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
@@ -67,7 +67,7 @@ const Layout = (props) => {
     });
     const [restrictionCookies, setRestrictionCookies] = useState(false);
     const [showGlobalPromo, setShowGlobalPromo] = React.useState(false);
-    const [setCompareList] = createCompareList();
+    // const [setCompareList] = createCompareList();
 
     // get app name config
 
@@ -143,28 +143,28 @@ const Layout = (props) => {
         ogData['fb:app_id'] = storeConfig.pwa.facebook_meta_id_app_id;
     }
 
-    React.useEffect(() => {
-        if (!isLogin && modules.productcompare.enabled) {
-            const uid_product = getCookies('uid_product_compare');
-            if (!uid_product) {
-                setCompareList({
-                    variables: {
-                        uid: [],
-                    },
-                })
-                    .then(async (res) => {
-                        setCookies('uid_product_compare', res.data.createCompareList.uid);
-                    })
-                    .catch((e) => {
-                        window.toastMessage({
-                            open: true,
-                            variant: 'error',
-                            text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
-                        });
-                    });
-            }
-        }
-    }, [isLogin]);
+    // React.useEffect(() => {
+    //     if (!isLogin && modules.productcompare.enabled) {
+    //         const uid_product = getCookies('uid_product_compare');
+    //         if (!uid_product) {
+    //             setCompareList({
+    //                 variables: {
+    //                     uid: [],
+    //                 },
+    //             })
+    //                 .then(async (res) => {
+    //                     setCookies('uid_product_compare', res.data.createCompareList.uid);
+    //                 })
+    //                 .catch((e) => {
+    //                     window.toastMessage({
+    //                         open: true,
+    //                         variant: 'error',
+    //                         text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
+    //                     });
+    //                 });
+    //         }
+    //     }
+    // }, [isLogin]);
 
     const reloadCartQty = typeof window !== 'undefined' && window && window.reloadCartQty;
     let cartId = '';
