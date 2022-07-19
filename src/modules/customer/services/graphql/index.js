@@ -154,7 +154,11 @@ export const newPassword = () => useMutation(Schema.setNewPassword, {
 
 export const subscribeNewsletter = () => useMutation(Schema.subscribeNewsletter, { ...config });
 
-export const getOfflineTransactionHistory = () => useQuery(Schema.getOfflineTransactionHistory, { ...config });
+export const getOfflineTransactionHistory = () => useQuery(Schema.getOfflineTransactionHistory, {
+    context: {
+        request: 'internal',
+    },
+});
 
 export default {
     getCountries,

@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/prefer-default-export, no-unused-vars */
 
 import { gql } from '@apollo/client';
 
@@ -58,7 +58,6 @@ export const customerWishlist = gql`
         product{
           id
           name
-          url_key
           sku
           small_image{
             url
@@ -160,49 +159,13 @@ const productDetail = (config = {}) => `
     id
     name
     sku
-    stock_status
-    url_key
     __typename
     attribute_set_id
     small_image{
       url
     }
-    ${config?.pwa?.label_weltpixel_enable ? `
-        weltpixel_labels {
-        categoryLabel {
-            css
-            customer_group
-            image
-            page_position
-            position
-            priority
-            text
-            text_padding
-            text_bg_color
-            text_font_size
-            text_font_color          
-        }
-        productLabel {
-            css
-            customer_group
-            image
-            page_position
-            position
-            priority
-            text
-            text_padding
-            text_bg_color
-            text_font_size
-            text_font_color  
-        }
-    }        
-    ` : ''}
     image{
       url
-    }
-    review {
-      rating_summary
-      reviews_count
     }
     special_from_date
     special_to_date
@@ -291,18 +254,12 @@ export const getCustomer = (config = {}) => gql`
         lastname
         postcode
         country_code
-        country {
-          code
-          label
-        }
         region {
             region
             region_code
         }
         street
         telephone
-        latitude
-        longitude
     }
      wishlist {
       id
@@ -311,7 +268,6 @@ export const getCustomer = (config = {}) => gql`
         product {
           ${productDetail(config)}
           ${priceRange}
-          ${priceTiers}
         }
       }
     }

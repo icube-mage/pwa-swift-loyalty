@@ -78,10 +78,10 @@ class MyApp extends App {
         } = ctx;
 
         /*
-		 * ---------------------------------------------
-		 * MAINTAIN LOGIN FLAG
-		 * check if login from server
-		 */
+         * ---------------------------------------------
+         * MAINTAIN LOGIN FLAG
+         * check if login from server
+         */
         let isLogin = 0;
         let lastPathNoAuth = '';
         let customerData = {};
@@ -95,22 +95,22 @@ class MyApp extends App {
             isLogin = allcookie.isLogin || 0;
             customerData = allcookie[custDataNameCookie];
             lastPathNoAuth = req.session && typeof req.session !== 'undefined'
-				&& req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
+                && req.session.lastPathNoAuth && typeof req.session.lastPathNoAuth !== 'undefined'
                 ? req.session.lastPathNoAuth
                 : '/customer/account';
         }
         isLogin = parseInt(isLogin);
 
         /*
-		 * ---------------------------------------------
-		 * [COOKIES] OTHER
-		 */
+         * ---------------------------------------------
+         * [COOKIES] OTHER
+         */
         const app_cookies = { cookies_currency: req ? req.cookies.app_currency : null };
 
         /*
-		 * ---------------------------------------------
-		 * CALLING ROUTING MIDDLEWARE
-		 */
+         * ---------------------------------------------
+         * CALLING ROUTING MIDDLEWARE
+         */
         routeMiddleware({
             res,
             req,
@@ -121,10 +121,10 @@ class MyApp extends App {
         });
 
         /*
-		 * ---------------------------------------------
-		 * GET CONFIGURATIONS FROM COOKIES
-		 * TO BE PROVIDED INTO PAGE PROPS
-		 */
+         * ---------------------------------------------
+         * GET CONFIGURATIONS FROM COOKIES
+         * TO BE PROVIDED INTO PAGE PROPS
+         */
         let dataVesMenu;
         let { storeConfig } = pageProps;
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
@@ -169,9 +169,9 @@ class MyApp extends App {
         }
 
         /*
-		 * ---------------------------------------------
-		 * RETURNS
-		 */
+         * ---------------------------------------------
+         * RETURNS
+         */
         let token;
         if (req && req.session && req.session.token) {
             token = req.session.token;
@@ -193,9 +193,9 @@ class MyApp extends App {
 
     componentDidMount() {
         /*
-		 * ---------------------------------------------
-		 * ADDING CUSTOM SERVICE WORKER
-		 */
+         * ---------------------------------------------
+         * ADDING CUSTOM SERVICE WORKER
+         */
         if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production' && typeof document !== 'undefined') {
             if (document.readyState === 'complete') {
                 this.registerServiceWorker();
@@ -207,18 +207,18 @@ class MyApp extends App {
         }
 
         /*
-		 * ---------------------------------------------
-		 * REMOVE CONSOLE
-		 * remove all console.log statement when APP_ENV = 'prod'
-		 */
+         * ---------------------------------------------
+         * REMOVE CONSOLE
+         * remove all console.log statement when APP_ENV = 'prod'
+         */
         if (getAppEnv() === 'prod') {
             console.log = () => { };
         }
 
         /*
-		 * ---------------------------------------------
-		 * FIREBASE INITIALIZATION
-		 */
+         * ---------------------------------------------
+         * FIREBASE INITIALIZATION
+         */
         if (features.firebase.config.apiKey !== '' && features.firebase.pushNotification.enabled) {
             // initial firebase messaging
             Notification.init();
@@ -256,38 +256,38 @@ class MyApp extends App {
         }
 
         /*
-		 * LAZY LOADING FONTS
-		 * Use this to load non critical fonts
-		 */
+         * LAZY LOADING FONTS
+         * Use this to load non critical fonts
+         */
         // Fonts();
 
         /*
-		 * ---------------------------------------------
-		 * REMOVE THE SERVER SIDE INJECTED CSS
-		 * This is for speed performanc purpose
-		 */
+         * ---------------------------------------------
+         * REMOVE THE SERVER SIDE INJECTED CSS
+         * This is for speed performanc purpose
+         */
         const jssStyles = document.querySelector('#jss-server-side');
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
 
         /*
-		 * ---------------------------------------------
-		 * GTM INITIALIZATION
-		 */
+         * ---------------------------------------------
+         * GTM INITIALIZATION
+         */
         const tagManagerArgs = {
             gtmId:
-				typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
-				    ? GTM.gtmId[publicRuntimeConfig.appEnv]
-				    : GTM.gtmId.dev,
+                typeof publicRuntimeConfig !== 'undefined' && GTM.gtmId[publicRuntimeConfig.appEnv]
+                    ? GTM.gtmId[publicRuntimeConfig.appEnv]
+                    : GTM.gtmId.dev,
         };
         if (GTM.enable) TagManager.initialize(tagManagerArgs);
 
         /*
-		 * ---------------------------------------------
-		 * COOKIE CLEARANCE
-		 * remove config cookie if the page is reloaded
-		 */
+         * ---------------------------------------------
+         * COOKIE CLEARANCE
+         * remove config cookie if the page is reloaded
+         */
         if (typeof window !== 'undefined') {
             window.onbeforeunload = function () {
                 setResolver({});

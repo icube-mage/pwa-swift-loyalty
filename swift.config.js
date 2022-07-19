@@ -2,7 +2,7 @@
 /* STORE CONFIGURATION
 /* --------------------------------------- */
 const useMagentoCommerce = false; // setup uses magento commerce or community
-const storeCode = ''; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
+const storeCode = 'catalog_redemption_view'; // fill it with any store code when the magento is setup with multiple stores. leave it empty to use default store.
 const assetsVersion = '1.0.6';
 
 const HOST = {
