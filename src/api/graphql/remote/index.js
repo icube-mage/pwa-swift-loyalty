@@ -3,8 +3,8 @@ const fetch = require('cross-fetch');
 const { print } = require('graphql');
 const { wrapSchema, introspectSchema } = require('@graphql-tools/wrap');
 const { graphqlEndpoint, storeCode } = require('../../../../swift.config');
-const { decrypt } = require('../../../helpers/encryption');
-const { getAppEnv } = require('../../../helpers/env');
+const { decrypt } = require('../../../../core/helpers/encryption');
+const { getAppEnv } = require('../../../../core/helpers/env');
 
 const executor = async ({
     document, variables, context,

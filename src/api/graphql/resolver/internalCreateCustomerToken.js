@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign, import/extensions */
 const requestGraph = require('../request');
-const { encrypt } = require('../../../helpers/encryption');
+const { encrypt } = require('../../../../core/helpers/encryption');
 
 const query = `
     mutation register(

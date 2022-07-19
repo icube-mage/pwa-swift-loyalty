@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 const qs = require('querystring');
-const { getAppEnv } = require('../../helpers/env');
-const { recaptchaConfig } = require('../../services/graphql/schema/recaptcha_config');
+const { getAppEnv } = require('../../../core/helpers/env');
+const { recaptchaConfig } = require('../../../core/services/graphql/schema/recaptcha_config');
 const { graphqlEndpoint } = require('../../../swift.config');
 
 module.exports = async (req, res) => {

@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 const { features: { magezon: { instagramFeed } } } = require('../../../../swift.config');
-const { decrypt } = require('../../../helpers/encryption');
+const { decrypt } = require('../../../../core/helpers/encryption');
 
 const internalGetInstagramFeed = async (parent, { token }) => {
     const decodeToken = decrypt(token);

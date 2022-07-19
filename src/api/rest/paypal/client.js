@@ -9,7 +9,7 @@
  * PayPal Node JS SDK dependency
  */
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
-const { getAppEnv } = require('../../../helpers/env');
+const { getAppEnv } = require('../../../../core/helpers/config');
 const { modules } = require('../../../../swift.config');
 
 /**

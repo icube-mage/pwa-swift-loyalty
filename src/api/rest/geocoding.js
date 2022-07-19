@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 
-const { decrypt } = require('../../helpers/encryption');
+const { decrypt } = require('../../../core/helpers/encryption');
 
 module.exports = (req, res) => {
     const { query, gmapApiKey } = req.body;

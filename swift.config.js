@@ -14,8 +14,8 @@ const HOST = {
 
 /* Magento GraphQL Endpoint */
 const graphqlEndpoint = {
-    local: 'https://b2cdemo.getswift.asia/graphql',
-    dev: 'https://swift-sprint.testingnow.me/graphql',
+    local: 'https://catalog-redemption.testingnow.me/graphql',
+    dev: 'https://catalog-redemption.testingnow.me/graphql',
     stage: 'https://b2cdemonew.gcp-staging.testingnow.me/graphql',
     prod: 'https://b2cdemo.getswift.asia/graphql',
 };

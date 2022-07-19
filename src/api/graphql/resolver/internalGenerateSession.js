@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-const { decrypt, encrypt } = require('../../../helpers/encryption');
+const { decrypt, encrypt } = require('../../../../core/helpers/encryption');
 const requestGraph = require('../request');
 
 const query = `
