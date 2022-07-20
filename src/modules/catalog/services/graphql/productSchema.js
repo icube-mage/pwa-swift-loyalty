@@ -92,6 +92,7 @@ export const getProduct = (config = {}) => gql`
         id
         sku
         name
+        url_key
         short_description {
           html
         }

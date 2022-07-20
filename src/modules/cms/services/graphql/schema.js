@@ -101,6 +101,7 @@ query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeF
         id
         name
         sku
+        url_key
         short_description {
           html
         }
