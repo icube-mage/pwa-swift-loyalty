@@ -34,8 +34,6 @@ const executor = async ({
             additionalHeader['Checkout-Token'] = `${decrypt(checkoutToken)}`;
         }
 
-        // console.log("additionalHeader", additionalHeader)
-
         const fetchResult = await fetch(url, {
             method: 'POST',
             headers: {

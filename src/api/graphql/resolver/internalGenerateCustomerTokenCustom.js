@@ -16,7 +16,6 @@ const query = `
 const internalGenerateCustomerTokenCustom = async (parent, { email, password }, context) => {
     const res = await requestGraph(query, { email, password }, context);
     // context.session.destroy();
-    console.log('custom', res.generateCustomerToken);
     if (res.generateCustomerToken) {
         context.session.token = encrypt(res.generateCustomerToken.token);
         return {
