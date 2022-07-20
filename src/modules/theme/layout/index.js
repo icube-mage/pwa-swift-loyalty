@@ -19,13 +19,13 @@ import useStyles from '@core_modules/theme/layout/style';
 // import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
-import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
+// import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
 
 const GlobalPromoMessage = dynamic(() => import('@core_modules/theme/components/globalPromo'), { ssr: false });
-const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
+// const BottomNavigation = dynamic(() => import('@common_bottomnavigation'), { ssr: false });
 const HeaderMobile = dynamic(() => import('@common_headermobile'), { ssr: false });
 const HeaderDesktop = dynamic(() => import('@common_headerdesktop'), { ssr: true });
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
@@ -37,7 +37,6 @@ const RecentlyViewed = dynamic(() => import('@core_modules/theme/components/rece
 const Layout = (props) => {
     const bodyStyles = useStyles();
     const {
-        dataVesMenu,
         pageConfig,
         children,
         app_cookies,
@@ -49,6 +48,7 @@ const Layout = (props) => {
         t,
         onlyCms,
         withLayoutHeader = true,
+        // eslint-disable-next-line no-unused-vars
         withLayoutFooter = true,
         showRecentlyBar = true,
     } = props;
@@ -87,6 +87,7 @@ const Layout = (props) => {
     }
 
     // const [mainMinimumHeight, setMainMinimumHeight] = useState(0);
+    // eslint-disable-next-line no-unused-vars
     const refFooter = useRef(null);
     const refHeader = useRef(null);
     const client = useApolloClient();
@@ -146,29 +147,6 @@ const Layout = (props) => {
     if (storeConfig && storeConfig.pwa && storeConfig.pwa.facebook_meta_id_app_id) {
         ogData['fb:app_id'] = storeConfig.pwa.facebook_meta_id_app_id;
     }
-
-    // React.useEffect(() => {
-    //     if (!isLogin && modules.productcompare.enabled) {
-    //         const uid_product = getCookies('uid_product_compare');
-    //         if (!uid_product) {
-    //             setCompareList({
-    //                 variables: {
-    //                     uid: [],
-    //                 },
-    //             })
-    //                 .then(async (res) => {
-    //                     setCookies('uid_product_compare', res.data.createCompareList.uid);
-    //                 })
-    //                 .catch((e) => {
-    //                     window.toastMessage({
-    //                         open: true,
-    //                         variant: 'error',
-    //                         text: debuging.originalError ? e.message.split(':')[1] : t('common:productCompare:failedCompare'),
-    //                     });
-    //                 });
-    //         }
-    //     }
-    // }, [isLogin]);
 
     const reloadCartQty = typeof window !== 'undefined' && window && window.reloadCartQty;
     let cartId = '';
@@ -294,7 +272,6 @@ const Layout = (props) => {
                                     enablePopupInstallation={showPopup}
                                     appName={appName}
                                     installMessage={installMessage}
-                                    dataVesMenu={dataVesMenu}
                                 />
                             )
                             : null}
@@ -320,14 +297,6 @@ const Layout = (props) => {
                 {children}
                 {desktop ? <ScrollToTop {...props} /> : null}
             </main>
-            {withLayoutFooter && (
-                <footer className={bodyStyles.footerContainer} ref={refFooter}>
-                    <div className="hidden-mobile">
-                        <Copyright storeConfig={storeConfig} />
-                    </div>
-                    {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
-                </footer>
-            )}
             {
                 storeConfig.cookie_restriction && !restrictionCookies
                 && (

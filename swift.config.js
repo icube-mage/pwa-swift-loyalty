@@ -333,7 +333,7 @@ const modules = {
         path: '/customer/account/forgotpassword',
     },
     rewardpoint: {
-        enabled: true,
+        enabled: false,
         path: '/aw_rewardpoints/info',
     },
     rma: {

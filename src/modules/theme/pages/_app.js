@@ -125,7 +125,6 @@ class MyApp extends App {
          * GET CONFIGURATIONS FROM COOKIES
          * TO BE PROVIDED INTO PAGE PROPS
          */
-        let dataVesMenu;
         let { storeConfig } = pageProps;
         if (typeof window === 'undefined' && (!storeConfig || typeof storeConfig.secure_base_media_url === 'undefined')) {
             // storeConfig = await apolloClient.query({ query: ConfigSchema }).then(({ data }) => data.storeConfig);
@@ -137,11 +136,6 @@ class MyApp extends App {
                 ctx.res.redirect('/maintenance');
             }
             storeConfig = storeConfig.storeConfig;
-            // dataVesMenu = storeConfig.pwa.ves_menu_enable
-            //     ? await graphRequest(getVesMenu, { alias: storeConfig.pwa.ves_menu_alias }) : await graphRequest(getCategories);
-            // removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
-            //     ? storeConfig?.pwa?.remove_decimal_price_enable
-            //     : false;
         } else if (typeof window !== 'undefined' && !storeConfig) {
             storeConfig = getLocalStorage('pwa_config');
             if (!storeConfig || storeConfig === '' || storeConfig === {}) {
@@ -155,14 +149,6 @@ class MyApp extends App {
 
                 storeConfig = storeConfig.storeConfig;
             }
-            dataVesMenu = getLocalStorage('pwa_vesmenu');
-            // if (!dataVesMenu) {
-            //     dataVesMenu = storeConfig.pwa.ves_menu_enable
-            //         ? await pageProps.apolloClient.query(
-            //             { query: gql`${getVesMenu}`, variables: { alias: storeConfig.pwa.ves_menu_alias } },
-            //         ).then(({ data }) => data)
-            //         : await pageProps.apolloClient.query({ query: gql`${getCategories}` }).then(({ data }) => data);
-            // }
             removeDecimalConfig = storeConfig?.pwa?.remove_decimal_price_enable !== null
                 ? storeConfig?.pwa?.remove_decimal_price_enable
                 : false;
@@ -186,7 +172,6 @@ class MyApp extends App {
                 customerData,
                 token,
                 removeDecimalConfig,
-                dataVesMenu,
             },
         };
     }
@@ -328,7 +313,6 @@ class MyApp extends App {
         if (typeof window !== 'undefined') {
             setLocalStorage('cms_page', pageProps.storeConfig && pageProps.storeConfig.cms_page ? pageProps.storeConfig.cms_page : '');
             setLocalStorage('pwa_config', pageProps.storeConfig);
-            setLocalStorage('pwa_vesmenu', pageProps.dataVesMenu);
         }
 
         return (
