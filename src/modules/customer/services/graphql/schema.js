@@ -484,6 +484,7 @@ export const getOfflineTransactionHistory = gql`
       created_at
       id
       status
+      receipt
       total_purchase
       transaction_id
     }

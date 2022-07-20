@@ -8,35 +8,39 @@
 // /* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 // Library
-import Paper from '@material-ui/core/Paper';
-import TableContainer from '@material-ui/core/TableContainer';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Alert from '@material-ui/lab/Alert';
 import Layout from '@layout_customer';
 import useStyles from '@core_modules/customer/pages/address/components/style';
-import { SkeletonTable } from '@core_modules/customer/pages/address/components/skeleton';
 import classNames from 'classnames';
 import TextField from '@common_textfield';
 import Button from '@common_button';
 import { breakPointsUp } from '@helper_theme';
 import DropFile from '@core_modules/commons/DropFile/index';
+import TableOfflineTransaction from '@core_modules/customer/pages/offlinetransaction/components/table';
 
 // Main Render Page
 const Content = (props) => {
     // style
     const styles = useStyles();
     const {
-        loading, dataOfflineTransaction, formik, handleDropFile,
+        loading, dataOfflineTransaction, formik, handleDropFile, t,
     } = props;
     const desktop = breakPointsUp('sm');
     return (
         <Layout {...props}>
             <div className={styles.container}>
-                <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
+                <form className={classNames('col-md-3', styles.container)} onSubmit={formik.handleSubmit}>
+                    <TextField
+                        label="Email"
+                        name="email"
+                        value={formik.values.email}
+                        error={
+                            !!(formik.touched.email && formik.errors.email)
+                        }
+                        errorMessage={
+                            (formik.touched.email && formik.errors.email)
+                      || null
+                        }
+                    />
                     <TextField
                         label="Order Transaction ID"
                         name="transactionId"
@@ -64,7 +68,6 @@ const Content = (props) => {
                     />
                     <DropFile
                         title="Upload File"
-                        // label="Upload File"
                         acceptedFile=".jpg,.jpeg,.png,.pdf,.gif"
                         multiple={false}
                         error={(
@@ -77,72 +80,18 @@ const Content = (props) => {
                         <Button
                             fullWidth={!desktop}
                             type="submit"
-                            loading={loading}
+                            // loading={loading}
                             align={desktop ? 'left' : 'center'}
                         >
                             Submit
                         </Button>
                     </div>
                 </form>
-                {/* <form onSubmit={formik.handleSubmit}>
-                    <input
-                        type="text"
-                        name="transactionId"
-                        value={formik.values.transactionId}
-                        onChange={formik.handleChange}
-                    />
-                    <input
-                        type="number"
-                        name="total_purchase"
-                        value={formik.values.total_purchase}
-                        onChange={formik.handleChange}
-                    />
-                    <input
-                        type="text"
-                        name="receipt"
-                        value={formik.values.receipt}
-                        onChange={formik.handleChange}
-                    />
-                    <button type="submit">Upload</button>
-                </form> */}
-                <div className={styles.tableOuterContainer}>
-                    <TableContainer component={Paper} className={[styles.tableContainer, 'hidden-mobile'].join(' ')}>
-                        <Table className={styles.table} size="small" aria-label="a dense table">
-                            <TableHead>
-                                <TableRow className={styles.tableRowHead}>
-                                    <TableCell align="left">Transaction ID</TableCell>
-                                    <TableCell align="left">Total Purchase</TableCell>
-                                    <TableCell align="left">Receipt</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                    <TableCell align="left">Transaction Date</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {loading ? (
-                                    <SkeletonTable />
-                                ) : dataOfflineTransaction ? (
-                                    <>
-                                        {dataOfflineTransaction.map((item, index) => (
-                                            <TableRow className={styles.tableRowHead} key={index}>
-                                                <TableCell align="left">{item.transaction_id}</TableCell>
-                                                <TableCell align="left">{item.total_purchase}</TableCell>
-                                                <TableCell align="left">Image</TableCell>
-                                                <TableCell align="left">{item.status}</TableCell>
-                                                <TableCell align="left">{item.created_at}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </>
-                                ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={9}>
-                                            <Alert severity="warning">No Offline Transaction</Alert>
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
+                <TableOfflineTransaction
+                    t={t}
+                    loading={loading}
+                    dataOfflineTransaction={dataOfflineTransaction}
+                />
             </div>
         </Layout>
     );

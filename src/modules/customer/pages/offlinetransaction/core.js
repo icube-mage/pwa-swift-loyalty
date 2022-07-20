@@ -14,6 +14,8 @@ import {
 const Core = (props) => {
     const { pageConfig, Content, customerData } = props;
     const [dataOfflineTransaction, setDataOfflineTransaction] = useState(undefined);
+    const [postOfflineTransaction] = createOfflineTransaction();
+
     const config = {
         title: 'Offline Transaction',
         headerTitle: 'Offline Transaction',
@@ -22,25 +24,26 @@ const Core = (props) => {
     };
 
     const { loading, data, error } = getOfflineTransactionHistory();
-    const [postOfflineTransaction] = createOfflineTransaction();
+
+    const emailCustomer = customerData.email;
 
     const OFFLINE_TRANSACTION_SCHEMA = Yup.object().shape({
-        email: customerData.email && Yup.string().required('Tidak Boleh Kosong'),
+        email: Yup.string().required('Tidak Boleh Kosong'),
         transactionId: Yup.string().required('Tidak Boleh Kosong'),
         total_purchase: Yup.number().required('Tidak Boleh Kosong'),
-        filename: Yup.string().required('Tidak Boleh Kosong'),
         image_base64: Yup.string().required('Tidak Boleh Kosong'),
-        receipt: Yup.string().required('Tidak Boleh Kosong'),
+        // filename: Yup.string().required('Tidak Boleh Kosong'),
+        // receipt: Yup.string().required('Tidak Boleh Kosong'),
     });
 
     const formik = useFormik({
         initialValues: {
             transactionId: '',
             total_purchase: '',
-            // receipt: '',
             filename: '',
             image_base64: '',
-            email: customerData.email,
+            email: emailCustomer,
+            // receipt: '',
         },
         validationSchema: OFFLINE_TRANSACTION_SCHEMA,
         onSubmit: (values, { resetForm }) => {
@@ -52,14 +55,15 @@ const Core = (props) => {
                 transaction_id: values.transactionId,
             };
             postOfflineTransaction({ variables })
-                .then(() => {
+                .then((res) => {
                     window.backdropLoader(true);
                     window.toastMessage({
                         open: true,
-                        text: 'text message',
+                        text: `Success adding offline transaction, ${res.data.createOfflineTransaction.message}`,
                         variant: 'success',
                     });
                     resetForm({});
+                    getOfflineTransactionHistory();
                 }).catch((e) => {
                     window.backdropLoader(true);
                     window.toastMessage({

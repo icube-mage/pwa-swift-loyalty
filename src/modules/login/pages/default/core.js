@@ -7,7 +7,7 @@
 /* eslint-disable no-shadow */
 import Layout from '@layout';
 import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
-import { getCookies, setCookies } from '@helper_cookies';
+// import { getCookies, setCookies } from '@helper_cookies';
 import { setCartId, getCartId } from '@helper_cartid';
 import { useQuery } from '@apollo/client';
 import { expiredToken, custDataNameCookie } from '@config';
@@ -28,14 +28,14 @@ import {
     removeToken as deleteToken,
     otpConfig as queryOtpConfig,
     getCustomerCartId,
-    mergeCart as mutationMergeCart,
+    // mergeCart as mutationMergeCart,
     socialLogin,
     getSigninMethodSocialLogin,
 } from '@core_modules/login/services/graphql';
 import { loginConfig } from '@services/graphql/repository/pwa_config';
 import { getCustomer } from '@core_modules/login/services/graphql/schema';
-import { localCompare } from '@services/graphql/schema/local';
-import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
+// import { localCompare } from '@services/graphql/schema/local';
+// import { assignCompareListToCustomer } from '@core_modules/productcompare/service/graphql';
 
 const Message = dynamic(() => import('@common_toast'), { ssr: false });
 const appEnv = getAppEnv();
@@ -166,8 +166,8 @@ const Login = (props) => {
     const cartData = getCustomerCartId({
         skip: !cusIsLogin,
     });
-    const [mergeCart] = mutationMergeCart();
-    const [mergeCompareProduct, { client }] = assignCompareListToCustomer();
+    // const [mergeCart] = mutationMergeCart();
+    // const [mergeCompareProduct, { client }] = assignCompareListToCustomer();
 
     const [actSocialLogin] = socialLogin();
 
@@ -383,28 +383,28 @@ const Login = (props) => {
                 firstname: custData.data.customer.firstname,
                 customer_group: custData.data.customer.customer_group,
             });
-            const uid_product = getCookies('uid_product_compare');
+            // const uid_product = getCookies('uid_product_compare');
             const custCartId = cartData.data.customerCart.id;
-            if (uid_product) {
-                mergeCompareProduct({
-                    variables: {
-                        uid: uid_product,
-                    },
-                })
-                    .then((res) => {
-                        setCookies('uid_product_compare', res.data.assignCompareListToCustomer.compare_list.uid);
-                        client.writeQuery({
-                            query: localCompare,
-                            data: {
-                                item_count: res.data.assignCompareListToCustomer.compare_list.item_count,
-                                items: res.data.assignCompareListToCustomer.compare_list.items,
-                            },
-                        });
-                    })
-                    .catch(() => {
-                        //
-                    });
-            }
+            // if (uid_product) {
+            //     mergeCompareProduct({
+            //         variables: {
+            //             uid: uid_product,
+            //         },
+            //     })
+            //         .then((res) => {
+            //             setCookies('uid_product_compare', res.data.assignCompareListToCustomer.compare_list.uid);
+            //             client.writeQuery({
+            //                 query: localCompare,
+            //                 data: {
+            //                     item_count: res.data.assignCompareListToCustomer.compare_list.item_count,
+            //                     items: res.data.assignCompareListToCustomer.compare_list.items,
+            //                 },
+            //             });
+            //         })
+            //         .catch(() => {
+            //             //
+            //         });
+            // }
             if (cartId === '' || !cartId) {
                 setCartId(custCartId, expired);
                 setDisabled(false);
@@ -419,29 +419,29 @@ const Login = (props) => {
                 } else {
                     Router.push('/customer/account');
                 }
-            } else if (cartId !== custCartId) {
-                mergeCart({
-                    variables: {
-                        sourceCartId: cartId,
-                        destionationCartId: custCartId,
-                    },
-                })
-                    .then(async (res) => {
-                        await setCartId(res.data.mergeCarts.id, expired);
-                        await setDisabled(false);
-                        window.backdropLoader(false);
-                        window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
-                        setTimeout(() => {
-                            if (query && query.redirect) {
-                                Router.push(query.redirect);
-                            } else if (redirectLastPath && redirectLastPath !== '') {
-                                Router.push(redirectLastPath);
-                            } else {
-                                Router.push('/customer/account');
-                            }
-                        }, 1500);
-                    })
-                    .catch(() => {});
+            // } else if (cartId !== custCartId) {
+            //     mergeCart({
+            //         variables: {
+            //             sourceCartId: cartId,
+            //             destionationCartId: custCartId,
+            //         },
+            //     })
+            //         .then(async (res) => {
+            //             await setCartId(res.data.mergeCarts.id, expired);
+            //             await setDisabled(false);
+            //             window.backdropLoader(false);
+            //             window.toastMessage({ open: true, variant: 'success', text: t('login:success') });
+            //             setTimeout(() => {
+            //                 if (query && query.redirect) {
+            //                     Router.push(query.redirect);
+            //                 } else if (redirectLastPath && redirectLastPath !== '') {
+            //                     Router.push(redirectLastPath);
+            //                 } else {
+            //                     Router.push('/customer/account');
+            //                 }
+            //             }, 1500);
+            //         })
+            //         .catch(() => {});
             } else if (query && query.redirect) {
                 Router.push(query.redirect);
             } else if (redirectLastPath && redirectLastPath !== '') {
