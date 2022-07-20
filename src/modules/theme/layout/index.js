@@ -19,7 +19,7 @@ import useStyles from '@core_modules/theme/layout/style';
 // import { createCompareList } from '@core_modules/product/services/graphql';
 
 import PopupInstallAppMobile from '@core_modules/theme/components/custom-install-popup/mobile';
-import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
+// import Copyright from '@core_modules/theme/components/footer/desktop/components/copyright';
 import { localTotalCart } from '@services/graphql/schema/local';
 import { getCountCart } from '@core_modules/theme/services/graphql';
 import { getCartId } from '@helper_cartid';
@@ -318,9 +318,9 @@ const Layout = (props) => {
             </main>
             {withLayoutFooter && (
                 <footer className={bodyStyles.footerContainer} ref={refFooter}>
-                    <div className="hidden-mobile">
+                    {/* <div className="hidden-mobile">
                         <Copyright storeConfig={storeConfig} />
-                    </div>
+                    </div> */}
                     {desktop ? null : <BottomNavigation active={pageConfig.bottomNav} storeConfig={storeConfig} />}
                 </footer>
             )}

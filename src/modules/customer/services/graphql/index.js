@@ -161,9 +161,9 @@ export const getOfflineTransactionHistory = () => useQuery(Schema.getOfflineTran
     // },
 });
 
-export const createOfflineTransaction = (variables) => useMutation(Schema.createOfflineTransaction, {
+export const createOfflineTransaction = () => useMutation(Schema.createOfflineTransaction, {
     ...config,
-    variables,
+    // variables,
 });
 
 export default {

@@ -22,7 +22,6 @@ import { SkeletonTable } from '@core_modules/customer/pages/address/components/s
 import classNames from 'classnames';
 import TextField from '@common_textfield';
 import Button from '@common_button';
-import Typography from '@common_typography';
 import { breakPointsUp } from '@helper_theme';
 import DropFile from '@core_modules/commons/DropFile/index';
 
@@ -31,10 +30,9 @@ const Content = (props) => {
     // style
     const styles = useStyles();
     const {
-        loading, dataOfflineTransaction, formik, handleDropFile, postOfflineTransaction,
+        loading, dataOfflineTransaction, formik, handleDropFile,
     } = props;
     const desktop = breakPointsUp('sm');
-    // console.log(e.)
     return (
         <Layout {...props}>
             <div className={styles.container}>
@@ -79,15 +77,34 @@ const Content = (props) => {
                         <Button
                             fullWidth={!desktop}
                             type="submit"
-                            loading={postOfflineTransaction.loading || postOfflineTransaction.loading}
+                            loading={loading}
                             align={desktop ? 'left' : 'center'}
                         >
-                            <Typography letter="capitalize" color="white" type="bold">
-                                Submit
-                            </Typography>
+                            Submit
                         </Button>
                     </div>
                 </form>
+                {/* <form onSubmit={formik.handleSubmit}>
+                    <input
+                        type="text"
+                        name="transactionId"
+                        value={formik.values.transactionId}
+                        onChange={formik.handleChange}
+                    />
+                    <input
+                        type="number"
+                        name="total_purchase"
+                        value={formik.values.total_purchase}
+                        onChange={formik.handleChange}
+                    />
+                    <input
+                        type="text"
+                        name="receipt"
+                        value={formik.values.receipt}
+                        onChange={formik.handleChange}
+                    />
+                    <button type="submit">Upload</button>
+                </form> */}
                 <div className={styles.tableOuterContainer}>
                     <TableContainer component={Paper} className={[styles.tableContainer, 'hidden-mobile'].join(' ')}>
                         <Table className={styles.table} size="small" aria-label="a dense table">

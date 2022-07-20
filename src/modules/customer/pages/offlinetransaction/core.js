@@ -24,9 +24,10 @@ const Core = (props) => {
     const { loading, data, error } = getOfflineTransactionHistory();
     const [postOfflineTransaction] = createOfflineTransaction();
 
-    const validationSchema = Yup.object().shape({
+    const OFFLINE_TRANSACTION_SCHEMA = Yup.object().shape({
+        email: customerData.email && Yup.string().required('Tidak Boleh Kosong'),
         transactionId: Yup.string().required('Tidak Boleh Kosong'),
-        total_purchase: Yup.string().required('Tidak Boleh Kosong'),
+        total_purchase: Yup.number().required('Tidak Boleh Kosong'),
         filename: Yup.string().required('Tidak Boleh Kosong'),
         image_base64: Yup.string().required('Tidak Boleh Kosong'),
         receipt: Yup.string().required('Tidak Boleh Kosong'),
@@ -41,43 +42,32 @@ const Core = (props) => {
             image_base64: '',
             email: customerData.email,
         },
-        validationSchema,
-        // onSubmit: async (values, {resetForm} ) => {
-        //   window.backdropLoader(true);
-        //   // console.log(values,'v')
-        //   await postOfflineTransaction({
-        //     variables: {
-        //       ...values,
-        //       customer: {
-        //         email: values.email,
-        //       },
-        //       receipt: values.image_base64,
-        //       total_purchase:values.total_purchase,
-        //       transaction_id: values.transactionId
-        //     },
-        //   }).then(() => {
-        //       window.backdropLoader(true);
-        //       window.toastMessage({
-        //           open: true,
-        //           text: 'text message',
-        //           variant: 'success',
-        //       });
-        //       console.log(values.email, "e")
-        //       resetForm({});
-        //   }).catch((e) => {
-        //       window.backdropLoader(true);
-        //       window.toastMessage({
-        //           open: true,
-        //           text: e.message.split(':')[1] || 'gagal',
-        //           variant: 'error',
-        //       });
-        //       console.log(values.email, "error")
-
-        //   });
-        // },
-        onSubmit: () => {
-            // eslint-disable-next-line no-console
-            console.log('values');
+        validationSchema: OFFLINE_TRANSACTION_SCHEMA,
+        onSubmit: (values, { resetForm }) => {
+            window.backdropLoader(true);
+            const variables = {
+                email: values.email,
+                receipt: values.image_base64,
+                total_purchase: parseInt(values.total_purchase),
+                transaction_id: values.transactionId,
+            };
+            postOfflineTransaction({ variables })
+                .then(() => {
+                    window.backdropLoader(true);
+                    window.toastMessage({
+                        open: true,
+                        text: 'text message',
+                        variant: 'success',
+                    });
+                    resetForm({});
+                }).catch((e) => {
+                    window.backdropLoader(true);
+                    window.toastMessage({
+                        open: true,
+                        text: e.message.split(':')[1] || e.message,
+                        variant: 'error',
+                    });
+                });
         },
     });
 

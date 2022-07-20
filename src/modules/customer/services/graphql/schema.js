@@ -489,29 +489,6 @@ export const getOfflineTransactionHistory = gql`
     }
   }
 `;
-// export const createOfflineTransaction = gql`
-//   mutation createOfflineTransaction(
-//     $email: String!,
-//     $receipt: String!,
-//     $total_purchase: String!,
-//     $transaction_id: String!,
-//     receipt: String!
-//     ) {
-//       createOfflineTransaction(input: {
-//         customer:{
-//           email: $email
-//         }
-//       }) {
-//       receipt: $receipt
-//       total_purchase: $total_purchase
-//       transaction_id: $transaction_id
-//     } {
-//         message
-//         status
-//       }
-//     }
-// `;
-
 export const createOfflineTransaction = gql`
   mutation createOfflineTransaction(
     $email:String!,

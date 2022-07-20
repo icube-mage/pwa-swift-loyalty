@@ -30,6 +30,7 @@ export const routeWithAuth = (path) => {
         '/inboxnotification/notification',
         '/customer/newsletter',
         '/rma/customer',
+        '/swiftloyalty/offlinetransaction',
     ];
 
     const found = route.find((val) => val === path);
