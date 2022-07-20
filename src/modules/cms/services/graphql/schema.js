@@ -105,6 +105,7 @@ query getProductList(
       items {
         id
         name
+        url_key
         sku
         short_description {
           html
