@@ -15,6 +15,9 @@ const Core = (props) => {
     const { pageConfig, Content, customerData } = props;
     const [dataOfflineTransaction, setDataOfflineTransaction] = useState(undefined);
     const [postOfflineTransaction] = createOfflineTransaction();
+    const {
+        loading, data, error, refetch,
+    } = getOfflineTransactionHistory();
 
     const config = {
         title: 'Offline Transaction',
@@ -23,8 +26,6 @@ const Core = (props) => {
         bottomNav: false,
     };
 
-    const { loading, data, error } = getOfflineTransactionHistory();
-
     const emailCustomer = customerData.email;
 
     const OFFLINE_TRANSACTION_SCHEMA = Yup.object().shape({
@@ -32,18 +33,15 @@ const Core = (props) => {
         transactionId: Yup.string().required('Tidak Boleh Kosong'),
         total_purchase: Yup.number().required('Tidak Boleh Kosong'),
         image_base64: Yup.string().required('Tidak Boleh Kosong'),
-        // filename: Yup.string().required('Tidak Boleh Kosong'),
-        // receipt: Yup.string().required('Tidak Boleh Kosong'),
     });
 
     const formik = useFormik({
         initialValues: {
             transactionId: '',
             total_purchase: '',
-            filename: '',
+            // filename: '',
             image_base64: '',
             email: emailCustomer,
-            // receipt: '',
         },
         validationSchema: OFFLINE_TRANSACTION_SCHEMA,
         onSubmit: (values, { resetForm }) => {
@@ -63,7 +61,7 @@ const Core = (props) => {
                         variant: 'success',
                     });
                     resetForm({});
-                    getOfflineTransactionHistory();
+                    refetch();
                 }).catch((e) => {
                     window.backdropLoader(true);
                     window.toastMessage({

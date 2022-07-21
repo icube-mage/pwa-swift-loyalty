@@ -21,10 +21,7 @@ input internalCreateCustomerTokenInput {
     gender: Int
     date_of_birth: String
     password: String
-    phonenumber: String
     is_subscribed: Boolean
-    otp: String
-    whatsapp_number: String
 }
 
 input internalCreateSocialLoginInput {
