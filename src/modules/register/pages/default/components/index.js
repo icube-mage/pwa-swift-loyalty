@@ -110,11 +110,11 @@ const RegisterView = ({
                             type="register"
                             setDisabled={setdisabled}
                             phoneProps={{
-                                name: 'phoneNumber',
-                                value: formik.values.phoneNumber,
+                                name: 'phonenumber',
+                                value: formik.values.phonenumber,
                                 onChange: handleChangePhone,
-                                error: !!(formik.errors.phoneNumber && formik.touched.phoneNumber),
-                                errorMessage: (formik.touched.phoneNumber && formik.errors.phoneNumber) || null,
+                                error: !!(formik.errors.phonenumber && formik.touched.phonenumber),
+                                errorMessage: (formik.touched.phonenumber && formik.errors.phonenumber) || null,
                             }}
                             codeProps={{
                                 name: 'otp',
@@ -135,15 +135,43 @@ const RegisterView = ({
                         {!phoneIsWa && (
                             <TextField
                                 label={`${t('common:form:phoneNumber')} Whatsapp`}
-                                name="whatsappNumber"
-                                value={formik.values.whatsappNumber}
+                                name="whatsapp_number"
+                                value={formik.values.whatsapp_number}
                                 onChange={formik.handleChange}
-                                error={!!(formik.touched.whatsappNumber && formik.errors.whatsappNumber)}
-                                errorMessage={(formik.touched.whatsappNumber && formik.errors.whatsappNumber) || null}
+                                error={!!(formik.touched.whatsapp_number && formik.errors.whatsapp_number)}
+                                errorMessage={(formik.touched.whatsapp_number && formik.errors.whatsapp_number) || null}
                             />
                         )}
                     </>
-                ) : null}
+                )
+                    : (
+                        <>
+                            <TextField
+                                label={t('common:form:phoneNumber')}
+                                name="phonenumber"
+                                value={formik.values.phonenumber}
+                                onChange={formik.handleChange}
+                                error={!!(formik.touched.phonenumber && formik.errors.phonenumber)}
+                                errorMessage={(formik.touched.phonenumber && formik.errors.phonenumber) || null}
+                            />
+                            <FormControlLabel
+                                onChange={handleWa}
+                                className={styles.checkWa}
+                                control={<Checkbox name="whastapptrue" color="primary" size="small" />}
+                                label={<Typography variant="p">{t('register:isWhatsapp')}</Typography>}
+                            />
+                            {!phoneIsWa && (
+                                <TextField
+                                    label={`${t('common:form:phoneNumber')} Whatsapp`}
+                                    name="whatsapp_number"
+                                    value={formik.values.whatsapp_number}
+                                    onChange={formik.handleChange}
+                                    error={!!(formik.touched.whatsapp_number && formik.errors.whatsapp_number)}
+                                    errorMessage={(formik.touched.whatsapp_number && formik.errors.whatsapp_number) || null}
+                                />
+                            )}
+                        </>
+                    )}
                 <div className={styles.footer}>
                     <FormControlLabel
                         value={formik.values.subscribe}

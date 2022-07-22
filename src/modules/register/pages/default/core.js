@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 import Layout from '@layout';
 import React, { useRef } from 'react';
-import { setLogin, setEmailConfirmationFlag, getLastPathWithoutLogin } from '@helper_auth';
+import { setLogin, getLastPathWithoutLogin } from '@helper_auth';
 import { setCartId, getCartId } from '@helper_cartid';
 import { expiredToken, custDataNameCookie } from '@config';
 import Cookies from 'js-cookie';
@@ -102,7 +102,7 @@ const Register = (props) => {
     });
     const otpConfig = queryOtpConfig();
 
-    const enableOtp = otpConfig.data && otpConfig.data.otpConfig.otp_enable[0].enable_otp_register;
+    const enableOtp = otpConfig.data && otpConfig.data.otpConfigLoyalty.otp_enable[0].enable_otp_register;
 
     const [sendRegister] = register();
 
@@ -120,8 +120,8 @@ const Register = (props) => {
     if (enableOtp) {
         configValidation = {
             ...configValidation,
-            phoneNumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
-            whatsappNumber: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
+            phonenumber: Yup.string().required(t('validate:phoneNumber:required')).matches(regexPhone, t('validate:phoneNumber:wrong')),
+            whatsapp_number: Yup.string().required(t('validate:whatsappNumber:required')).matches(regexPhone, t('validate:whatsappNumber:wrong')),
             otp: Yup.number().required('Otp is required'),
         };
     }
@@ -161,13 +161,11 @@ const Register = (props) => {
         })
             .then(async ({ data }) => {
                 resetForm();
-                if (data.internalCreateCustomerToken.is_email_confirmation) {
+                if (data.createCustomerLoyalty.tokenloyalty) {
                     window.backdropLoader(false);
-                    setEmailConfirmationFlag({ status: '00', message: t('register:openEmail'), variant: 'success' });
-
                     window.toastMessage({
                         open: true,
-                        text: t('register:openEmail'),
+                        text: 'Account successfully created',
                         variant: 'success',
                     });
 
@@ -202,8 +200,8 @@ const Register = (props) => {
             dob: null,
             password: '',
             confirmPassword: '',
-            phoneNumber: '',
-            whatsappNumber: '',
+            phonenumber: '',
+            whatsapp_number: '',
             subscribe: false,
             otp: '',
             captcha: '',
@@ -256,7 +254,7 @@ const Register = (props) => {
     const handleWa = () => {
         if (phoneIsWa === false) {
             // eslint-disable-next-line no-use-before-define
-            formik.setFieldValue('whatsappNumber', formik.values.phoneNumber);
+            formik.setFieldValue('whatsapp_number', formik.values.phonenumber);
         }
         setPhoneIsWa(!phoneIsWa);
     };
@@ -264,9 +262,9 @@ const Register = (props) => {
     const handleChangePhone = (event) => {
         const { value } = event.target;
         if (phoneIsWa === true) {
-            formik.setFieldValue('whatsappNumber', value);
+            formik.setFieldValue('whatsapp_number', value);
         }
-        formik.setFieldValue('phoneNumber', value);
+        formik.setFieldValue('phonenumber', value);
     };
 
     const handleChangeDate = (date) => {

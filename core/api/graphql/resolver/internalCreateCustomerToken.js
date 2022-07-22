@@ -8,6 +8,8 @@ const query = `
         $lastname: String,
         $email: String!,
         $password: String!,
+        $phonenumber: String!,
+        $whatsapp_number: String!,
     ) {
         createCustomerLoyalty(
             input: {
@@ -15,6 +17,8 @@ const query = `
               lastname: $lastname,
               email: $email,
               password: $password,
+              whatsapp_number: $whatsapp_number,
+              phonenumber: $phonenumber
             }
           ) {
             tokench
@@ -29,6 +33,8 @@ const internalCreateCustomerToken = async (parent, args, context) => {
         lastname: args.input.lastname,
         email: args.input.email,
         password: args.input.password,
+        phonenumber: args.input.phonenumber,
+        whatsapp_number: args.input.whatsapp_number,
     };
     const res = await requestGraph(query, variables, context);
     // context.session.destroy();

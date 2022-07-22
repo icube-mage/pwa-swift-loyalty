@@ -340,17 +340,13 @@ export const updateCustomerProfile = gql`
         $lastname: String!,
         $email: String!,
         $password: String!
-        $whatsapp_number: String,
-        $phonenumber: String,
     ) {
-        updateCustomerCustom(
+        updateCustomer(
             input: {
                 firstname: $firstname,
                 lastname: $lastname,
                 email: $email,
                 password: $password,
-                whatsapp_number: $whatsapp_number,
-                phonenumber: $phonenumber,
             }
         ) {
             customer {
@@ -364,7 +360,7 @@ export const updateCustomerProfile = gql`
 
 export const changeCustomerPassword = gql`
     mutation changeCustomerPassword($currentPassword: String!, $newPassword: String!) {
-        changeCustomerPassword(currentPassword: $currentPassword, newPassword: $newPassword) {
+        changeCustomerPasswordLoyalty(currentPassword: $currentPassword, newPassword: $newPassword) {
             firstname
             lastname
             email

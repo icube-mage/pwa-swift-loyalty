@@ -6,6 +6,8 @@ export const register = gql`
         $lastname: String,
         $email: String!,
         $password: String!,
+        $phonenumber: String!,
+        $whatsapp_number: String!,
     ) {
       createCustomerLoyalty(
         input: {
@@ -13,6 +15,8 @@ export const register = gql`
           lastname: $lastname,
           email: $email,
           password: $password,
+          whatsapp_number: $whatsapp_number,
+          phonenumber: $phonenumber
         }
       ) {
         tokench
@@ -58,7 +62,7 @@ mutation mergeCart(
 
 export const otpConfig = gql`
     {
-        otpConfig {
+        otpConfigLoyalty {
             otp_enable {
                 enable_otp_register
             }
