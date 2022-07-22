@@ -80,6 +80,10 @@ module.exports = withOffline({
                 source: '/service-worker.js',
                 destination: '/_next/static/service-worker.js',
             },
+            {
+                source: '/swiftloyalty/offlinetransaction',
+                destination: '/customer/account/swiftloyalty/offlinetransaction',
+            },
         ];
     },
     // enable code below on Prod and increase the version everytime before running build script

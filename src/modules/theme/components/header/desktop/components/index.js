@@ -6,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 import ShoppingBagIcon from '@plugin_shoppingbag';
 import Link from 'next/link';
 import DesktopInstallApp from '@core_modules/theme/components/custom-install-popup/desktop';
-import Menu from '@core_modules/theme/components/header/desktop/components/mcategory';
 import TopMenu from '@core_modules/theme/components/header/desktop/components/mtop';
 import Autocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete';
 import OptionAutocomplete from '@core_modules/theme/components/header/desktop/components/autocomplete/view';
@@ -18,16 +17,12 @@ const ViewTopNavigation = (props) => {
         searchByClick,
         setValue,
         value,
-        data,
-        loading,
         t,
         isLogin,
         customer,
         handleLogout,
         app_cookies,
         showGlobalPromo,
-        // modules,
-        vesMenuConfig,
         appName = 'Swift PWA',
         installMessage = 'Install',
         enablePopupInstallation = false,
@@ -59,16 +54,6 @@ const ViewTopNavigation = (props) => {
                                 </Link>
                             </div>
                         </div>
-                        <div className="header-middle__center">
-                            <div className="row menu-category">
-                                <div className="col-xs-12 menu-middle">
-                                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                                </div>
-                            </div>
-                            <div className="header-small__menu">
-                                {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                            </div>
-                        </div>
                         <div className="header-middle__right">
                             <div className="box">
                                 <div className="header-middle__icons">
@@ -95,14 +80,6 @@ const ViewTopNavigation = (props) => {
                     </div>
                 </div>
             </main>
-            <div className="header-tab">
-                <div className="row menu-category">
-                    <div className="col-xs-12">{loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}</div>
-                </div>
-                <div className="header-small__menu">
-                    {loading ? null : <Menu vesMenuConfig={vesMenuConfig} data={data} storeConfig={storeConfig} />}
-                </div>
-            </div>
             <style jsx>
                 {`
                     .header-main {
