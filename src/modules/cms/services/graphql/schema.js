@@ -95,13 +95,18 @@ export const getProductReviews = gql`
 `;
 
 export const getProductList = gql`
-query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeFilterInput, $sort: ProductAttributeSortInput) {
+query getProductList(
+    $search: String
+    $pageSize: Int
+    $filter: ProductAttributeFilterInput
+    $sort: ProductAttributeSortInput
+  ) {
     products(search: $search, pageSize: $pageSize, filter: $filter, sort: $sort) {
       items {
         id
         name
-        sku
         url_key
+        sku
         short_description {
           html
         }
@@ -164,7 +169,6 @@ query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeF
                     amount {
                       currency
                       value
-                      __typename
                     }
                     label
                   }
@@ -186,7 +190,6 @@ query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeF
                     amount {
                       currency
                       value
-                      __typename
                     }
                     label
                   }
@@ -208,7 +211,7 @@ query getProductList($search: String, $pageSize: Int, $filter: ProductAttributeF
         special_to_date
       }
     }
-}
+  }  
 `;
 
 export const getCategories = gql`
