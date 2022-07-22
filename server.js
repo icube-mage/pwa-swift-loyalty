@@ -12,7 +12,7 @@ const fs = require('fs');
 const LRUCache = require('lru-cache');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const remoteSchema = require('./core/api/graphql');
+const remoteSchema = require('./src/api/graphql');
 const nextI18next = require('./core/lib/i18n');
 
 const { json } = express;
@@ -23,13 +23,13 @@ const {
     expiredToken, nossrCache, features, assetsVersion,
 } = require('./swift.config');
 const { SESSION_SECRET } = require('./swift-server.config');
-const generateXml = require('./core/api/rest/xml');
-const captchaValidation = require('./core/api/rest/captcha');
-const firebaseValidation = require('./core/api/rest/firebase-cloud-messaging');
-const geocodingServices = require('./core/api/rest/geocoding');
+const generateXml = require('./src/api/rest/xml');
+const captchaValidation = require('./src/api/rest/captcha');
+const firebaseValidation = require('./src/api/rest/firebase-cloud-messaging');
+const geocodingServices = require('./src/api/rest/geocoding');
 
 // paypal
-const getPaypalDetail = require('./core/api/rest/paypal/getDetailTransaction');
+const getPaypalDetail = require('./src/api/rest/paypal/getDetailTransaction');
 
 // This is where we cache our rendered HTML pages
 const ssrCache = new LRUCache({

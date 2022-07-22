@@ -18,7 +18,7 @@ const Layout = (props) => {
     const menu = [
         { href: '/customer/account', title: t('customer:menu:myAccount') },
         { href: '/sales/order/history', title: t('customer:menu:myOrder') },
-        { href: '/sales/transaction/history', title: 'Offline transaction' },
+        { href: '/swiftloyalty/offlinetransaction', title: 'Offline transaction' },
         { href: '/customer/account/address', title: t('customer:menu:address') },
         { href: '/customer/account/profile', title: t('customer:menu:accountInformation') },
         ...pushIf(modules.rewardpoint.enabled, {
