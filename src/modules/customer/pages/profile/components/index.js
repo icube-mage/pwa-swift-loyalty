@@ -21,7 +21,6 @@ const ProfileForm = (props) => {
         editEmail, setEditPass, editPass, updateCustomerStatus, changeCustomerPasswordStatus,
     } = props;
     const desktop = breakPointsUp('sm');
-    console.log(phoneIsWa, 'p');
     return (
         <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
             <TextField

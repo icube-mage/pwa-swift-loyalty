@@ -28,7 +28,7 @@ const Content = (props) => {
     return (
         <Layout {...props}>
             <div className={styles.container}>
-                <form className={classNames('col-md-3', styles.container)} onSubmit={formik.handleSubmit}>
+                <form className={classNames('col-md-6', styles.container)} onSubmit={formik.handleSubmit}>
                     <TextField
                         label="Email"
                         name="email"

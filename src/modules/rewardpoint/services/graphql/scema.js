@@ -2,20 +2,36 @@
 import { gql } from '@apollo/client';
 
 export const getRewardPoint = gql`
-  query getRewardPoint(
+query getRewardPoint(
   $pageSize: Int,
   $currentPage: Int
-  ) {
-    customerRewardPointsLoyalty {
-      balance
-      balanceCurrency
-      formatedBalanceCurrency
-      formatedSpendRate
-      reservedPoints
-      spendRate
-      transaction_history(pageSize: $pageSize, currentPage: $currentPage) {
-        total_count
+) {
+  customerRewardPoints {
+    balance
+    balanceCurrency
+    formatedBalanceCurrency
+    formatedSpendRate
+    spendRate
+    transaction_history(
+      pageSize: $pageSize, 
+      currentPage: $currentPage
+    ) {
+      total_count
+      page_info{
+        current_page
+        page_size
+        total_pages
+      }
+      __typename
+      items{
+        balance
+        points
+        transactionId
+        transactionDate
       }
     }
+    __typename
   }
+}
+
 `;
